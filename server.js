@@ -8,6 +8,7 @@ const user = require('./controller/user');
 const teacher = require('./controller/teacher');
 const student = require('./controller/student');
 const subject = require('./controller/subject');
+const comment = require('./controller/comment');
 
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
@@ -16,27 +17,27 @@ mongoose.Promise = global.Promise;
 const uri = 'mongodb+srv://Fuzay:lgb5Gveyya8hIJaB@clusterangular.0gxzn2l.mongodb.net/assignments?retryWrites=true&w=majority';
 
 const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
 };
 
 mongoose.connect(uri, options)
-  .then(() => {
-    console.log("Connecté à la base MongoDB assignments dans le cloud !");
-    console.log("at URI = " + uri);
-    console.log("vérifiez with http://localhost:8010/api/assignments que cela fonctionne")
-  },
-    err => {
-      console.log('Erreur de connexion: ', err);
-    });
+    .then(() => {
+            console.log("Connecté à la base MongoDB assignments dans le cloud !");
+            console.log("at URI = " + uri);
+            console.log("vérifiez with http://localhost:8010/api/assignments que cela fonctionne")
+        },
+        err => {
+            console.log('Erreur de connexion: ', err);
+        });
 
 // Pour accepter les connexions cross-domain (CORS)
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next();
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    next();
 });
 
 // Pour les formulaires
@@ -51,52 +52,56 @@ const prefix = '/api';
 //USER :
 
 app.route(prefix + '/user')
-  .post(user.postUser);
+    .post(user.postUser);
 
 app.route(prefix + '/user/:id')
-  .get(user.getUser);
+    .get(user.getUser);
 
 //TEACHER
 
 app.route(prefix + '/teacher')
-  .post(teacher.postTeacher);
+    .post(teacher.postTeacher);
 
 app.route(prefix + '/teacher/:id')
-  .get(teacher.getTeacher);
+    .get(teacher.getTeacher);
 
 //STUDENT
 
 app.route(prefix + '/student')
-  .post(student.postStudent);
+    .post(student.postStudent);
 
 app.route(prefix + '/student/:id')
-  .get(student.getStudent);
+    .get(student.getStudent);
 
 //ASSIGNMENT
 
 app.route(prefix + '/assignments')
-  .get(assignment.getAssignments)
-  .post(assignment.postAssignment)
-  .put(assignment.updateAssignment);
+    .get(assignment.getAssignments)
+    .post(assignment.postAssignment)
+    .put(assignment.updateAssignment);
 
 app.route(prefix + '/assignments/:id')
-  .get(assignment.getAssignment)
-  .delete(assignment.deleteAssignment);
+    .get(assignment.getAssignment)
+    .delete(assignment.deleteAssignment);
 
 //SUBJECT
 
 app.route(prefix + '/subject')
-  .post(subject.postSubject);
+    .post(subject.postSubject);
 
 app.route(prefix + '/subject/:id')
-  .get(subject.getSubject);
+    .get(subject.getSubject);
 
+//COMMENT
 
+app.route(prefix + '/comment')
+    .post(comment.postComment);
+
+app.route(prefix + '/comments/:assignmentId')
+    .get(comment.getComments);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
 console.log('Serveur démarré sur http://localhost:' + port);
 
 module.exports = app;
-
-
