@@ -1,4 +1,7 @@
 let Teacher = require('../model/teacher');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const config = require('./config');
 
 function loginTeacher(req, res) {
     let username = req.params.username;

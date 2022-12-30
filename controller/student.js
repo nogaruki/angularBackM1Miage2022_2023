@@ -1,7 +1,7 @@
 const Student = require('../model/student');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const config = require('../config');
+const config = require('./config');
 
 function loginStudent(req, res) {
 
