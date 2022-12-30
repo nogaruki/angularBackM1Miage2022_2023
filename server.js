@@ -4,7 +4,6 @@ let bodyParser = require('body-parser');
 let assignment = require('./controller/assignments');
 
 let mongoose = require('mongoose');
-const user = require('./controller/user');
 const teacher = require('./controller/teacher');
 const student = require('./controller/student');
 const subject = require('./controller/subject');
@@ -49,29 +48,21 @@ let port = process.env.PORT || 8010;
 // les routes
 const prefix = '/api';
 
-//USER :
-
-app.route(prefix + '/user')
-    .post(user.postUser);
-
-app.route(prefix + '/user/:id')
-    .get(user.getUser);
-
 //TEACHER
 
-app.route(prefix + '/teacher')
+app.route(prefix + '/teacher/post')
     .post(teacher.postTeacher);
 
-app.route(prefix + '/teacher/:id')
-    .get(teacher.getTeacher);
+app.route(prefix + '/teacher/get')
+    .post(teacher.getTeacher);
 
 //STUDENT
 
-app.route(prefix + '/student')
+app.route(prefix + '/student/add')
     .post(student.postStudent);
 
-app.route(prefix + '/student/:id')
-    .get(student.getStudent);
+app.route(prefix + '/student/get')
+    .post(student.getStudent);
 
 //ASSIGNMENT
 
@@ -85,7 +76,6 @@ app.route(prefix + '/assignments/:id')
     .delete(assignment.deleteAssignment);
 
 //SUBJECT
-
 app.route(prefix + '/subject')
     .post(subject.postSubject);
 

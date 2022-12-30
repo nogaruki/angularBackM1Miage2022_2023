@@ -2,30 +2,40 @@ let Teacher = require('../model/teacher');
 
 // Récupérer un assignment par son id (GET)
 function getTeacher(req, res) {
-    let teacherId = req.params.id;
+    let username = req.params.username;
+    let password = req.params.password;
 
-    Teacher.findOne({ id: teacherId }, (err, teacher) => {
+    Teacher.findOne({ username: username }, (err, teacher) => {
         if (err) { res.send(err) }
-        res.json(teacher);
+        if(!teacher) { res.send("Teacher not found") }
+        let token = jwt.sign({ id: student._id }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.status(200).send({ auth: true, token: token, student: student });
     })
 }
 
 // Ajout d'un assignment (POST)
-function postTeacher(req, res) {
-    let teacher = new Teacher();
-    teacher.id = req.body.id;
-    teacher.user_id = req.body.user_id;
-    teacher.picture = req.body.picture;
+async function postTeacher(req, res) {
 
-    console.log("POST teacher reçu :");
-    console.log(teacher)
-
-    teacher.save((err) => {
-        if (err) {
-            res.send('cant post teacher ', err);
-        }
-        res.json({ message: `Teacher : ${teacher.id} saved!` })
-    })
+    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    Teacher.create({
+        email : req.body.email,
+        picture:  req.body.picture,
+        password : hashedPassword,
+        username : req.body.username,
+        prenom : req.body.prenom,
+        nom : req.body.nom
+        },
+        function (err, teacher) {
+            if (err) return res.status(500).send("There was a problem registering the student.")
+            console.log("Création d'un teacher effectué :");
+            console.log(teacher)
+            let token = jwt.sign({ id: student._id }, config.secret, {
+                expiresIn: 86400 // expires in 24 hours
+                });
+                res.status(200).send({ auth: true, token: token, teacher: teacher });
+    });
 }
 
 
