@@ -1,7 +1,6 @@
 let Teacher = require('../model/teacher');
 
-// Récupérer un assignment par son id (GET)
-function getTeacher(req, res) {
+function loginTeacher(req, res) {
     let username = req.params.username;
     let password = req.params.password;
 
@@ -15,8 +14,7 @@ function getTeacher(req, res) {
     })
 }
 
-// Ajout d'un assignment (POST)
-async function postTeacher(req, res) {
+async function registerTeacher(req, res) {
 
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Teacher.create({
@@ -39,4 +37,4 @@ async function postTeacher(req, res) {
 }
 
 
-module.exports = { getTeacher, postTeacher };
+module.exports = { loginTeacher, registerTeacher };

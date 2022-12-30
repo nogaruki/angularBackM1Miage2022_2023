@@ -50,19 +50,19 @@ const prefix = '/api';
 
 //TEACHER
 
-app.route(prefix + '/teacher/post')
-    .post(teacher.postTeacher);
+app.route(prefix + '/teacher/register')
+    .post(teacher.registerTeacher);
 
-app.route(prefix + '/teacher/get')
-    .post(teacher.getTeacher);
+app.route(prefix + '/teacher/login')
+    .post(teacher.loginTeacher);
 
 //STUDENT
 
-app.route(prefix + '/student/add')
-    .post(student.postStudent);
+app.route(prefix + '/student/register')
+    .post(student.registerStudent);
 
-app.route(prefix + '/student/get')
-    .post(student.getStudent);
+app.route(prefix + '/student/login')
+    .post(student.loginStudent);
 
 //ASSIGNMENT
 

@@ -2,8 +2,8 @@ const Student = require('../model/student');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
-// Récupérer un assignment par son id (GET)
-function getStudent(req, res) {
+
+function loginStudent(req, res) {
 
     let username = req.params.username;
     let password = req.params.password;
@@ -22,8 +22,7 @@ function getStudent(req, res) {
     })
 }
 
-// Ajout d'un student (POST)
-function postStudent(req, res) {
+function registerStudent(req, res) {
     
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Student.create({
@@ -45,4 +44,4 @@ function postStudent(req, res) {
     });
 }
 
-module.exports = { getStudent, postStudent };
+module.exports = { loginStudent, registerStudent };
