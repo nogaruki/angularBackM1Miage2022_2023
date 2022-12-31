@@ -58,7 +58,11 @@ app.route(prefix + '/teacher/login')
     .post(teacher.loginTeacher);
 
 app.route(prefix + '/teacher/:id')
-    .get(teacher.getTeacher);
+    .get(teacher.getTeacherById);
+
+app.route(prefix + '/teacher')
+    .get(teacher.getTeacherByToken);
+
 //STUDENT
 
 app.route(prefix + '/student/register')
@@ -68,8 +72,10 @@ app.route(prefix + '/student/login')
     .post(student.loginStudent);
 
 app.route(prefix + '/student/:id')
-    .get(student.getStudent);
+    .get(student.getStudentById);
 
+app.route(prefix + '/student/')
+    .get(student.getStudentByToken);
 //ASSIGNMENT
 
 app.route(prefix + '/assignments')

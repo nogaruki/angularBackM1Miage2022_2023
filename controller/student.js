@@ -24,15 +24,38 @@ function loginStudent(req, res) {
         })
     })
 }
-function getStudent(req, res) {
+function getStudentById(req, res) {
     let id = req.params.id;
-
+    if(!id) { res.status(400).send({ message: "Veuillez remplir tous les champs" }); return; }
     Student.findOne({ _id: id }, (err, student) => {
         if (err) { res.send(err) }
-        if(!student) { res.send("Student not found") }
+        if(!student) { res.status(500).send("Student not found") }
+        student.password = bcrypt.decodeBase64(student.password, 24);
         res.status(200).send({ student: student});
     })
 }
+
+function getStudentByToken(req, res) {
+    var token = req.headers['x-access-token'];
+    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' } );
+    else
+    {
+        jwt.verify(token, config.secret, function(err, decoded) {
+            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+            else {
+                let id = decoded.id;
+                Student.findOne({ _id: id }, (err, student) => {
+                    if (err) { res.send(err); return;}
+                    if(!student) { res.status(500).send("Student not found"); return; }
+                    student.password = bcrypt.decodeBase64(student.password, 24);
+                    res.status(200).send({ student: student});
+                })
+            }
+            res.status(200).send(decoded);
+          });
+    }
+}
+
 
 
 function registerStudent(req, res) {
@@ -40,7 +63,7 @@ function registerStudent(req, res) {
         res.status(400).send({ message: "Veuillez remplir tous les champs" });
         return;
     }
-    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    const hashedPassword = bcrypt.hashSync(req.body.password, 24);
     Student.create({
         username : req.body.username,
         password : hashedPassword,
@@ -60,4 +83,4 @@ function registerStudent(req, res) {
     });
 }
 
-module.exports = { loginStudent, registerStudent, getStudent };
+module.exports = { loginStudent, registerStudent, getStudentById, getStudentByToken };
