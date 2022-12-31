@@ -27,13 +27,10 @@ function loginStudent(req, res) {
 function getStudent(req, res) {
     let id = req.params.id;
 
-    Teacher.findOne({ _id: id }, (err, teacher) => {
+    Student.findOne({ _id: id }, (err, student) => {
         if (err) { res.send(err) }
-        if(!teacher) { res.send("Student not found") }
-        let token = jwt.sign({ id: student._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
-          });
-          res.status(200).send({ auth: "student", token: token });
+        if(!student) { res.send("Student not found") }
+        res.status(200).send({ student: student});
     })
 }
 

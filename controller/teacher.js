@@ -31,10 +31,7 @@ function getTeacher(req, res) {
     Teacher.findOne({ _id: id }, (err, teacher) => {
         if (err) { res.send(err) }
         if(!teacher) { res.send("Teacher not found") }
-        let token = jwt.sign({ id: teacher._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
-          });
-          res.status(200).send({ auth: "teacher", token: token });
+        res.status(200).send({ teacher: teacher});
     })
 }
 
