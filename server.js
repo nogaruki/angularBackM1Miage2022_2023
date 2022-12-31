@@ -57,6 +57,8 @@ app.route(prefix + '/teacher/register')
 app.route(prefix + '/teacher/login')
     .post(teacher.loginTeacher);
 
+app.route(prefix + '/teacher/:id')
+    .get(teacher.getTeacher);
 //STUDENT
 
 app.route(prefix + '/student/register')
@@ -64,6 +66,9 @@ app.route(prefix + '/student/register')
 
 app.route(prefix + '/student/login')
     .post(student.loginStudent);
+
+app.route(prefix + '/student/:id')
+    .get(student.getStudent);
 
 //ASSIGNMENT
 

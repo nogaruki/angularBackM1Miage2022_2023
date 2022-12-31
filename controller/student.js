@@ -24,6 +24,19 @@ function loginStudent(req, res) {
         })
     })
 }
+function getStudent(req, res) {
+    let id = req.params.id;
+
+    Teacher.findOne({ _id: id }, (err, teacher) => {
+        if (err) { res.send(err) }
+        if(!teacher) { res.send("Student not found") }
+        let token = jwt.sign({ id: student._id }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.status(200).send({ auth: "student", token: token });
+    })
+}
+
 
 function registerStudent(req, res) {
     if(!req.body.username || !req.body.password || !req.body.email || !req.body.prenom || !req.body.nom) {
@@ -46,8 +59,8 @@ function registerStudent(req, res) {
         let token = jwt.sign({ id: student._id }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
             });
-            res.status(200).send({ auth: true, token: token, student: student });
+            res.status(200).send({ auth: "student", token: token});
     });
 }
 
-module.exports = { loginStudent, registerStudent };
+module.exports = { loginStudent, registerStudent, getStudent };

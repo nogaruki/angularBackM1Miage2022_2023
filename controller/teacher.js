@@ -10,10 +10,31 @@ function loginTeacher(req, res) {
     Teacher.findOne({ username: username }, (err, teacher) => {
         if (err) { res.send(err) }
         if(!teacher) { res.send("Teacher not found") }
-        let token = jwt.sign({ id: student._id }, config.secret, {
+        bcrypt.compare(password, student.password, (err, result) => {
+            if (err) { res.send(err) }
+            if (!result) { res.send("Wrong password") }
+            let token = jwt.sign({ id: student._id }, config.secret, {
+                expiresIn: 86400 // expires in 24 hours
+              });
+              res.status(200).send({ auth: "teacher", token: token});
+        })
+        let token = jwt.sign({ id: teacher._id }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
-          res.status(200).send({ auth: true, token: token, student: student });
+          res.status(200).send({ auth: true, token: token});
+    })
+}
+
+function getTeacher(req, res) {
+    let id = req.params.id;
+
+    Teacher.findOne({ _id: id }, (err, teacher) => {
+        if (err) { res.send(err) }
+        if(!teacher) { res.send("Teacher not found") }
+        let token = jwt.sign({ id: teacher._id }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.status(200).send({ auth: "teacher", token: token });
     })
 }
 
@@ -43,4 +64,4 @@ async function registerTeacher(req, res) {
 }
 
 
-module.exports = { loginTeacher, registerTeacher };
+module.exports = { loginTeacher, registerTeacher, getTeacher };
