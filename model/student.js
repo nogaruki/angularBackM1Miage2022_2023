@@ -1,8 +1,7 @@
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
-let Student = Schema({
- _id: Number,
+let StudentSchema = Schema({
  username: String,
  email: String,
  password: String,
@@ -10,4 +9,4 @@ let Student = Schema({
  nom: String
 });
 // C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD
-module.exports = mongoose.model("Student", Student);
+module.exports = mongoose.model("Student", StudentSchema);

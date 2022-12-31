@@ -1,13 +1,14 @@
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
-let assignment = require('./controller/assignments');
 
 let mongoose = require('mongoose');
-const teacher = require('./controller/teacher');
-const student = require('./controller/student');
-const subject = require('./controller/subject');
-const comment = require('./controller/comment');
+let teacher = require('./controller/teacher');
+let student = require('./controller/student');
+let subject = require('./controller/subject');
+let comment = require('./controller/comment');
+let assignment = require('./controller/assignments');
+
 
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
@@ -18,7 +19,7 @@ const uri = 'mongodb+srv://Fuzay:lgb5Gveyya8hIJaB@clusterangular.0gxzn2l.mongodb
 const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: true
 };
 
 mongoose.connect(uri, options)
@@ -29,7 +30,7 @@ mongoose.connect(uri, options)
         },
         err => {
             console.log('Erreur de connexion: ', err);
-        });
+        }).catch(e=>console.log(e));
 
 // Pour accepter les connexions cross-domain (CORS)
 app.use(function(req, res, next) {

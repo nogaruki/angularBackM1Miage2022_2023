@@ -4,9 +4,12 @@ const bcrypt = require('bcryptjs');
 const config = require('./config');
 
 function loginStudent(req, res) {
-
-    let username = req.params.username;
-    let password = req.params.password;
+    if(!req.body.username || !req.body.password) {
+        res.status(400).send({ message: "Veuillez remplir tous les champs" });
+        return;
+    }
+    let username = req.body.username;
+    let password = req.body.password;
 
     Student.findOne({ username: username }, (err, student) => {
         if (err) { res.send(err) }
@@ -17,13 +20,16 @@ function loginStudent(req, res) {
             let token = jwt.sign({ id: student._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
               });
-              res.status(200).send({ auth: true, token: token, student: student });
+              res.status(200).send({ auth: "student", token: token});
         })
     })
 }
 
 function registerStudent(req, res) {
-    
+    if(!req.body.username || !req.body.password || !req.body.email || !req.body.prenom || !req.body.nom) {
+        res.status(400).send({ message: "Veuillez remplir tous les champs" });
+        return;
+    }
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Student.create({
         username : req.body.username,

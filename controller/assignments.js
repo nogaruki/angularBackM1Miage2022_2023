@@ -4,7 +4,7 @@ let Assignment = require('../model/assignment');
 function getAssignments(req, res) {
     var aggregateQuery;
     var rendu;
-
+    
     if (req.query.rendu == "") {
         aggregateQuery = Assignment.aggregate([{
             $match: {
