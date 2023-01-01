@@ -4,7 +4,7 @@ let Assignment = require('../model/assignment');
 function getAssignments(req, res) {
     var aggregateQuery;
     var rendu;
-    
+
     if (req.query.rendu == "") {
         aggregateQuery = Assignment.aggregate([{
             $match: {
@@ -52,11 +52,17 @@ function getAssignment(req, res) {
 
 // Ajout d'un assignment (POST)
 function postAssignment(req, res) {
+
+    if (req.body.rendu && req.body.note === undefined) {
+        return res.status(400).json({ message: 'Can\'t create assignment because rendu = true and no mark was given' })
+    }
+
     let assignment = new Assignment();
     assignment.id = req.body.id;
     assignment.nom = req.body.nom;
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
+    assignment.note = req.body.note;
     assignment.subject_id = req.body.subject_id;
     assignment.teacher_id = req.body.teacher_id;
     assignment.student_id = req.body.student_id;
@@ -76,16 +82,22 @@ function postAssignment(req, res) {
 function updateAssignment(req, res) {
     console.log("UPDATE recu assignment : ");
     console.log(req.body);
-    Assignment.findByIdAndUpdate(req.body._id, req.body, { new: true }, (err, assignment) => {
-        if (err) {
-            console.log(err);
-            res.send(err)
-        } else {
-            res.json({ message: 'updated' })
+
+    Assignment.findOne({ _id: req.body._id }, (err, assignment) => {
+        if (err) { res.send(err) }
+
+        if (assignment.note === undefined) {
+            return res.status(400).json({ message: 'Can\'t update because assignments doesn\'t have grade' });
         }
 
-        // console.log('updated ', assignment)
-    });
+        assignment.rendu = true;
+        assignment.save((err) => {
+            if (err) {
+                res.send('cant update assignment ', err);
+            }
+            res.json({ message: 'updated' })
+        })
+    })
 
 }
 
