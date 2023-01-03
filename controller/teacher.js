@@ -6,15 +6,15 @@ const config = require('./config');
 function loginTeacher(req, res) {
     if (!req.body.username || !req.body.password) return res.status(400).send({ message: "Veuillez remplir tous les champs" });
 
-    let username = req.params.username;
-    let password = req.params.password;
+    let username = req.body.username;
+    let password = req.body.password;
     Teacher.findOne({ username: username }, (err, teacher) => {
         if (err) { return res.send(err) }
         if (!teacher) { return res.send("Teacher not found") }
-        bcrypt.compare(password, student.password, (err, result) => {
+        bcrypt.compare(password, teacher.password, (err, result) => {
             if (err) { return res.send(err) }
             if (!result) { return res.send("Wrong password") }
-            let token = jwt.sign({ id: student._id }, config.secret, {
+            let token = jwt.sign({ id: teacher._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
             return res.status(200).send({ auth: "teacher", token: token });
@@ -29,7 +29,7 @@ function getTeacherById(req, res) {
     Teacher.findOne({ _id: id }, (err, teacher) => {
         if (err) return res.send(err);
         if (!teacher) return res.status(500).send("Teacher not found");
-        teacher.password = bcrypt.decodeBase64(teacher.password, 24);
+        teacher.password = bcrypt.decodeBase64(teacher.password, 8);
         return res.status(200).send({ teacher: teacher });
     })
 }
@@ -44,7 +44,7 @@ function getTeacherByToken(req, res) {
             Teacher.findOne({ _id: id }, (err, teacher) => {
                 if (err) { return res.send(err); }
                 if (!teacher) return res.status(500).send("Teacher not found");
-                teacher.password = bcrypt.decodeBase64(teacher.password, 24);
+                teacher.password = bcrypt.decodeBase64(teacher.password, 8);
                 return res.status(200).send({ teacher: teacher });
             })
         });
@@ -60,7 +60,7 @@ async function registerTeacher(req, res) {
     if (!req.body.picture) {
         req.body.picture = "https://www.w3schools.com/howto/img_avatar.png";
     }
-    const hashedPassword = bcrypt.hashSync(req.body.password, 24);
+    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Teacher.create({
             email: req.body.email,
             picture: req.body.picture,
@@ -70,7 +70,7 @@ async function registerTeacher(req, res) {
             nom: req.body.nom
         },
         function(err, teacher) {
-            if (err) return res.status(500).send("There was a problem registering the student.")
+            if (err) return res.status(500).send("There was a problem registering the teacher.")
             console.log("Création d'un teacher effectué :");
             console.log(teacher)
             let token = jwt.sign({ id: teacher._id }, config.secret, {

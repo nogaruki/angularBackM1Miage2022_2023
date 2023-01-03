@@ -14,8 +14,8 @@ function loginStudent(req, res) {
         if (err) { return res.send(err) }
         if (!student) { return res.send("Student not found") }
         bcrypt.compare(password, student.password, (err, result) => {
-            if (err) { res.send(err) }
-            if (!result) { res.send("Wrong password") }
+            if (err) { return res.send(err) }
+            if (!result) { return res.send("Wrong password") }
             let token = jwt.sign({ id: student._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -30,7 +30,7 @@ function getStudentById(req, res) {
     Student.findOne({ _id: id }, (err, student) => {
         if (err) { return res.send(err) }
         if (!student) { return res.status(500).send("Student not found") }
-        student.password = bcrypt.decodeBase64(student.password, 24);
+        student.password = bcrypt.decodeBase64(student.password, 8);
         return res.status(200).send({ student: student });
     })
 }
@@ -46,7 +46,7 @@ function getStudentByToken(req, res) {
                 Student.findOne({ _id: id }, (err, student) => {
                     if (err) { res.send(err); return; }
                     if (!student) { res.status(500).send("Student not found"); return; }
-                    student.password = bcrypt.decodeBase64(student.password, 24);
+                    student.password = bcrypt.decodeBase64(student.password, 8);
                     res.status(200).send({ student: student });
                 })
             }
