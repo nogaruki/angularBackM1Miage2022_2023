@@ -57,6 +57,8 @@ function postAssignment(req, res) {
         return res.status(400).json({ message: 'Can\'t create assignment because rendu = true and no mark was given' })
     }
 
+    console.log(req.body);
+
     let assignment = new Assignment();
     assignment.id = req.body.id;
     assignment.nom = req.body.nom;
