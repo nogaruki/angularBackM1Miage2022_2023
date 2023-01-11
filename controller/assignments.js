@@ -27,9 +27,9 @@ function getAssignments(req, res) {
 
     console.log(req.query.rendu);
     Assignment.aggregatePaginate(aggregateQuery, {
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-        },
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10,
+    },
         (err, assignments) => {
             if (err) {
                 res.send(err);
@@ -57,27 +57,42 @@ function postAssignment(req, res) {
         return res.status(400).json({ message: 'Can\'t create assignment because rendu = true and no mark was given' })
     }
 
-    console.log(req.body);
-
-    let assignment = new Assignment();
-    assignment.id = req.body.id;
-    assignment.nom = req.body.nom;
-    assignment.dateDeRendu = req.body.dateDeRendu;
-    assignment.rendu = req.body.rendu;
-    assignment.note = req.body.note;
-    assignment.subject_id = req.body.subject_id;
-    assignment.teacher_id = req.body.teacher_id;
-    assignment.student_id = req.body.student_id;
+    let id = 1;
 
     console.log("POST assignment reçu :");
-    console.log(assignment)
+    console.log(req.body);
 
-    assignment.save((err) => {
-        if (err) {
-            res.send('cant post assignment ', err);
-        }
-        res.json({ message: `${assignment.nom} saved!` })
-    })
+    Assignment.find()
+        .sort("-id")
+        .limit(1)
+        .exec((error, data) => {
+            if (error) {
+                res.status(400).json({ message: 'Error while creating assignment' })
+            }
+            let assignment = new Assignment();
+            if (data.length>0) {
+                assignment.id = data[0].id + 1;
+            } else {
+                assignment.id = id;
+            }
+            assignment.nom = req.body.nom;
+            assignment.dateDeRendu = req.body.dateDeRendu;
+            assignment.rendu = req.body.rendu;
+            assignment.note = req.body.note;
+            assignment.subject_id = req.body.subject_id;
+            assignment.teacher_id = req.body.teacher_id;
+            assignment.student_id = req.body.student_id;
+
+            assignment.save((err) => {
+                if (err) {
+                    res.send('cant post assignment ', err);
+                }
+                res.json({ message: `${assignment.nom} saved!` })
+            })
+
+        });
+
+
 }
 
 // Update d'un assignment (PUT)
