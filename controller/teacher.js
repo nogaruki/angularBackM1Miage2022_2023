@@ -30,7 +30,7 @@ function getTeacherById(req, res) {
         if (err) return res.send(err);
         if (!teacher) return res.status(500).send("Teacher not found");
         teacher.password = bcrypt.decodeBase64(teacher.password, 8);
-        return res.status(200).send({ teacher: teacher });
+        return res.status(200).send(teacher);
     })
 }
 
@@ -45,13 +45,13 @@ function getTeacherByToken(req, res) {
                 if (err) { return res.send(err); }
                 if (!teacher) return res.status(500).send("Teacher not found");
                 teacher.password = bcrypt.decodeBase64(teacher.password, 8);
-                return res.status(200).send({ teacher: teacher });
+                return res.status(200).send(teacher);
             })
         });
     }
 }
 
-async function registerTeacher(req, res) {
+function registerTeacher(req, res) {
 
     if (!req.body.username || !req.body.password || !req.body.email || !req.body.prenom || !req.body.nom) {
         return res.status(400).send({ message: "Veuillez remplir tous les champs" });
@@ -81,5 +81,28 @@ async function registerTeacher(req, res) {
         });
 }
 
+function updateTeacher(req, res) {
 
-module.exports = { loginTeacher, registerTeacher, getTeacherById, getTeacherByToken };
+    if (!req.body.username || !req.body.email || !req.body.prenom || !req.body.nom || !req.body.picture) {
+        return res.status(400).send({ message: "Veuillez remplir tous les champs" });
+    }
+
+    Teacher.create({
+            id: req.body.id,
+            email: req.body.email,
+            picture: req.body.picture,
+            username: req.body.username,
+            prenom: req.body.prenom,
+            nom: req.body.nom
+        },
+        function(err, teacher) {
+            if (err) return res.status(500).send("There was a problem registering the teacher.")
+            console.log("Création d'un teacher effectué :");
+            console.log(teacher)
+          
+            return res.status(200).send(teacher);
+        });
+}
+
+
+module.exports = { loginTeacher, registerTeacher, getTeacherById, getTeacherByToken, updateTeacher };

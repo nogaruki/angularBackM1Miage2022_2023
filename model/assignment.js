@@ -9,7 +9,7 @@ let AssignmentSchema = Schema({
     rendu: Boolean,
     note: Number,
     subject_id: Number,
-    student_id: Number
+    students_id: [Number]
 });
 AssignmentSchema.plugin(aggregatePaginate);
 // C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD

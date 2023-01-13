@@ -81,7 +81,7 @@ function postAssignment(req, res) {
             assignment.note = req.body.note;
             assignment.subject_id = req.body.subject_id;
             assignment.teacher_id = req.body.teacher_id;
-            assignment.student_id = req.body.student_id;
+            assignment.students_id = req.body.students_id;
 
             assignment.save((err) => {
                 if (err) {
