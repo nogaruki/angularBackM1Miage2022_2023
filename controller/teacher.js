@@ -2,6 +2,7 @@ let Teacher = require('../model/teacher');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
+const Student = require("../model/student");
 
 function loginTeacher(req, res) {
     if (!req.body.username || !req.body.password) return res.status(400).send({ message: "Veuillez remplir tous les champs" });
@@ -104,8 +105,7 @@ function updateTeacher(req, res) {
         return res.status(400).send({ message: "Veuillez remplir tous les champs" });
     }
 
-    Teacher.create({
-            id: req.body.id,
+    Teacher.updateOne({ _id: req.body._id },{
             email: req.body.email,
             picture: req.body.picture,
             username: req.body.username,
