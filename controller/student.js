@@ -16,7 +16,7 @@ function loginStudent(req, res) {
         if (!student) { return res.send({message : "Student not found"}) }
         bcrypt.compare(password, student.password, (err, result) => {
             if (err) { return res.send(err) }
-            if (!result) { return res.send("Wrong password") }
+            if (!result) { return res.send({message :"Wrong password"}) }
             let token = jwt.sign({ id: student._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -30,7 +30,7 @@ function getStudentById(req, res) {
     if (!id) { return res.status(400).send({ message: "Veuillez remplir tous les champs" }); return; }
     Student.findOne({ _id: id }, (err, student) => {
         if (err) { return res.send(err) }
-        if (!student) { return res.status(500).send("Student not found") }
+        if (!student) { return res.status(500).send({message :"Student not found"}) }
         return res.status(200).send({ student: student });
     })
 }
@@ -45,7 +45,7 @@ function getStudentByToken(req, res) {
                 let id = decoded.id;
                 Student.findOne({ _id: id }, (err, student) => {
                     if (err) { return res.send(err); }
-                    if (!student) { res.status(500).send("Student not found"); return; }
+                    if (!student) { res.status(500).send({message :"Student not found"}); return; }
                     return res.status(200).send(student);
                 })
             }
@@ -68,7 +68,7 @@ function registerStudent(req, res) {
             nom: req.body.nom
         },
         function(err, student) {
-            if (err) return res.status(500).send("There was a problem registering the student.")
+            if (err) return res.status(500).send({message :"There was a problem registering the student."})
             console.log("Création d'un student effectué :");
             console.log(student)
             let token = jwt.sign({ id: student._id }, config.secret, {
@@ -91,7 +91,7 @@ function updateStudent(req, res) {
             nom: req.body.nom
         },
         function(err, student) {
-            if (err) return res.status(500).send("There was a problem updating the student.")
+            if (err) return res.status(500).send({message :"There was a problem updating the student."})
             console.log("Update d'un student effectué :");
             console.log(student)
             return res.status(200).send(student);

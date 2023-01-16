@@ -10,10 +10,10 @@ function loginTeacher(req, res) {
     let password = req.body.password;
     Teacher.findOne({ username: username }, (err, teacher) => {
         if (err) { return res.send(err) }
-        if (!teacher) { return res.send("Teacher not found") }
+        if (!teacher) { return res.send({message : "Teacher not found"}) }
         bcrypt.compare(password, teacher.password, (err, result) => {
             if (err) { return res.send(err) }
-            if (!result) { return res.send("Wrong password") }
+            if (!result) { return res.send({message : "Wrong password"}) }
             let token = jwt.sign({ id: teacher._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -28,7 +28,7 @@ function getTeacherById(req, res) {
     if (!id) return res.status(400).send({ message: "Veuillez insérer une id" });
     Teacher.findOne({ _id: id }, (err, teacher) => {
         if (err) return res.send(err);
-        if (!teacher) return res.status(500).send("Teacher not found");
+        if (!teacher) return res.status(500).send({message : "Teacher not found"});
         teacher.password = bcrypt.decodeBase64(teacher.password, 8);
         return res.status(200).send(teacher);
     })
@@ -43,7 +43,7 @@ function getTeacherByToken(req, res) {
             let id = decoded.id;
             Teacher.findOne({ _id: id }, (err, teacher) => {
                 if (err) { return res.send(err); }
-                if (!teacher) return res.status(500).send("Teacher not found");
+                if (!teacher) return res.status(500).send({message : "Teacher not found"});
                 teacher.password = bcrypt.decodeBase64(teacher.password, 8);
                 return res.status(200).send(teacher);
             })
@@ -71,7 +71,7 @@ function registerTeacher(req, res) {
         nom: req.body.nom
     },
         function (err, teacher) {
-            if (err) return res.status(500).send("There was a problem registering the teacher.")
+            if (err) return res.status(500).send({message : "There was a problem registering the teacher."})
             console.log("Création d'un teacher effectué :");
             console.log(teacher)
             let token = jwt.sign({ id: teacher._id }, config.secret, {
@@ -96,7 +96,7 @@ function updateTeacher(req, res) {
             nom: req.body.nom
         },
         function(err, teacher) {
-            if (err) return res.status(500).send("There was a problem registering the teacher.")
+            if (err) return res.status(500).send({message : "There was a problem registering the teacher."})
             console.log("Création d'un teacher effectué :");
             console.log(teacher)
           
