@@ -3,7 +3,7 @@ let Schema = mongoose.Schema;
 
 let Comment = Schema({
  id: Number,
- teacher_id: Number,
+ teacher_id: String,
  assignment_id: Number,
  comment: String
 });

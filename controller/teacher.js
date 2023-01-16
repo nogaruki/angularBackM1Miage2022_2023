@@ -2,6 +2,7 @@ let Teacher = require('../model/teacher');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
+const Student = require("../model/student");
 
 function loginTeacher(req, res) {
     if (!req.body.username || !req.body.password) return res.status(400).send({ message: "Veuillez remplir tous les champs" });
@@ -60,9 +61,26 @@ function registerTeacher(req, res) {
     if (!req.body.picture) {
         req.body.picture = "https://www.w3schools.com/howto/img_avatar.png";
     }
+
+    let username = req.body.username;
+    Teacher.findOne({ username: username}, (err, teacher) => {
+        if (err) { return res.send(err) }
+        if (teacher) { 
+            return res.send({message: "Username already taken"}) 
+        }
+
+    });
+    let email = req.body.email;
+    Teacher.findOne({ email: email }, (err, teacher) => {
+        if (err) { return res.send(err) }
+        if (teacher) {
+            return res.send({message: "Email already taken"})
+        }
+
+    });
+
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Teacher.create({
-        id: req.body.id,
         email: req.body.email,
         picture: req.body.picture,
         password: hashedPassword,
@@ -87,8 +105,7 @@ function updateTeacher(req, res) {
         return res.status(400).send({ message: "Veuillez remplir tous les champs" });
     }
 
-    Teacher.create({
-            id: req.body.id,
+    Teacher.updateOne({ _id: req.body._id },{
             email: req.body.email,
             picture: req.body.picture,
             username: req.body.username,

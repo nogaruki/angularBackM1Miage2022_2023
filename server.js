@@ -9,7 +9,7 @@ let student = require('./controller/student');
 let subject = require('./controller/subject');
 let comment = require('./controller/comment');
 let assignment = require('./controller/assignments');
-
+let setup_bdd = require('./controller/setup_bdd');
 
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
@@ -116,6 +116,10 @@ app.route(prefix + '/comment')
 
 app.route(prefix + '/comments/:assignmentId')
     .get(comment.getComments);
+
+//PEUPLER BDD
+app.route(prefix + '/peuplerbdd')
+    .post(setup_bdd.peuplerbdd);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

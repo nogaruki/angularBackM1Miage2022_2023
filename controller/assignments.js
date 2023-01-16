@@ -34,6 +34,7 @@ function getAssignments(req, res) {
             if (err) {
                 res.send(err);
             }
+            console.log(assignments);
             res.send(assignments);
         }
     );
@@ -81,7 +82,7 @@ function postAssignment(req, res) {
             assignment.note = req.body.note;
             assignment.subject_id = req.body.subject_id;
             assignment.teacher_id = req.body.teacher_id;
-            assignment.student_id = req.body.student_id;
+            assignment.students_id = req.body.students_id;
 
             assignment.save((err) => {
                 if (err) {
@@ -101,11 +102,8 @@ function updateAssignment(req, res) {
     Assignment.findOne({ _id: req.body._id }, (err, assignment) => {
         if (err) { res.send(err) }
 
-        if (assignment.note === undefined) {
-            return res.status(400).json({ message: 'Can\'t update because assignments doesn\'t have grade' });
-        }
+        assignment.students_id = req.body.students_id;
 
-        assignment.rendu = true;
         assignment.save((err) => {
             if (err) {
                 res.send('cant update assignment ', err);

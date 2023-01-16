@@ -1,0 +1,38 @@
+[
+	{
+		"id": 1,
+		"title": "La comm. outil de management",
+		"picture": "https://picsum.photos/2000",
+		"teacher_id": "63be9657f122672468296547"
+	},
+	{
+		"id": 2,
+		"title": "IA",
+		"picture": "https://picsum.photos/2000",
+		"teacher_id": "63be9657f122672468296547"
+	},
+	{
+		"id": 3,
+		"title": "Base de donnÃ©e",
+		"picture": "https://picsum.photos/2000",
+		"teacher_id": "63be9657f122672468296547"
+	},
+	{
+		"id": 4,
+		"title": "Math pour Big Data",
+		"picture": "https://picsum.photos/2000",
+		"teacher_id": "63be9657f122672468296547"
+	},
+	{
+		"id": 5,
+		"title": "Outils pour Ing. des Besoins",
+		"picture": "https://picsum.photos/2000",
+		"teacher_id": "63be9657f122672468296547"
+	},
+	{
+		"id": 6,
+		"title": "Anglais",
+		"picture": "https://picsum.photos/2000",
+		"teacher_id": "63be9657f122672468296547"
+	}
+]

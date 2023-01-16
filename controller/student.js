@@ -13,10 +13,10 @@ function loginStudent(req, res) {
 
     Student.findOne({ username: username }, (err, student) => {
         if (err) { return res.send(err) }
-        if (!student) { return res.send({message : "Student not found"}) }
+        if (!student) { return res.send({message: "Student not found"}) }
         bcrypt.compare(password, student.password, (err, result) => {
             if (err) { return res.send(err) }
-            if (!result) { return res.send({message :"Wrong password"}) }
+            if (!result) { return res.send({message: "Wrong password"}) }
             let token = jwt.sign({ id: student._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -59,6 +59,24 @@ function registerStudent(req, res) {
     if (!req.body.username || !req.body.password || !req.body.email || !req.body.prenom || !req.body.nom) {
         return res.status(400).send({ message: "Veuillez remplir tous les champs" });
     }
+
+    let username = req.body.username;
+    Student.findOne({ username: username}, (err, student) => {
+        if (err) { return res.send(err) }
+        if (student) {
+            return res.send({message: "Username already taken"})
+        }
+
+    });
+    let email = req.body.email;
+    Student.findOne({ email: email }, (err, student) => {
+        if (err) { return res.send(err) }
+        if (student) {
+            return res.send({message: "Email already taken"})
+        }
+
+    });
+
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Student.create({
             username: req.body.username,
