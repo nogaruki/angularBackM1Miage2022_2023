@@ -78,7 +78,6 @@ function postAssignment(req, res) {
             }
             assignment.nom = req.body.nom;
             assignment.dateDeRendu = req.body.dateDeRendu;
-            assignment.rendu = req.body.rendu;
             assignment.note = req.body.note;
             assignment.subject_id = req.body.subject_id;
             assignment.teacher_id = req.body.teacher_id;
