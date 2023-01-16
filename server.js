@@ -1,4 +1,5 @@
 let express = require('express');
+const cors = require('cors')
 let app = express();
 let bodyParser = require('body-parser');
 
@@ -43,6 +44,11 @@ app.use(function (req, res, next) {
 // Pour les formulaires
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({
+    origin: 'http://localhost:4200',
+    optionsSuccessStatus: 200,
+    allowedHeaders: ['x-access-token', 'content-type']
+}));
 
 let port = process.env.PORT || 8010;
 
@@ -63,6 +69,9 @@ app.route(prefix + '/teacher/:id')
 app.route(prefix + '/teacher')
     .get(teacher.getTeacherByToken);
 
+app.route(prefix + '/student/update')
+    .post(teacher.updateTeacher);
+
 //STUDENT
 
 app.route(prefix + '/student/register')
@@ -74,8 +83,12 @@ app.route(prefix + '/student/login')
 app.route(prefix + '/student/:id')
     .get(student.getStudentById);
 
-app.route(prefix + '/student/')
+app.route(prefix + '/student')
     .get(student.getStudentByToken);
+
+app.route(prefix + '/student/update')
+    .post(student.updateStudent);
+
 //ASSIGNMENT
 
 app.route(prefix + '/assignments')

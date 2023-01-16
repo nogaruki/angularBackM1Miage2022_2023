@@ -1,6 +1,14 @@
 let Subject = require('../model/subject');
 
 // Récupérer un assignment par son id (GET)
+function getAllSubject(req, res) {
+    Subject.find((err, subjects) => {
+        if (err) { res.send(err) }
+        res.json(subjects);
+    })
+}
+
+// Récupérer un assignment par son id (GET)
 function getSubject(req, res) {
     let subjectId = req.params.id;
 
