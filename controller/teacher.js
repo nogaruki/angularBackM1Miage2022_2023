@@ -38,7 +38,7 @@ function getTeacherByToken(req, res) {
     var token = req.headers['x-access-token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     else {
-        jwt.verify(token, config.secret, function(err, decoded) {
+        jwt.verify(token, config.secret, function (err, decoded) {
             if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
             let id = decoded.id;
             Teacher.findOne({ _id: id }, (err, teacher) => {
@@ -62,14 +62,15 @@ async function registerTeacher(req, res) {
     }
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Teacher.create({
-            email: req.body.email,
-            picture: req.body.picture,
-            password: hashedPassword,
-            username: req.body.username,
-            prenom: req.body.prenom,
-            nom: req.body.nom
-        },
-        function(err, teacher) {
+        id: req.body.id,
+        email: req.body.email,
+        picture: req.body.picture,
+        password: hashedPassword,
+        username: req.body.username,
+        prenom: req.body.prenom,
+        nom: req.body.nom
+    },
+        function (err, teacher) {
             if (err) return res.status(500).send("There was a problem registering the teacher.")
             console.log("Création d'un teacher effectué :");
             console.log(teacher)

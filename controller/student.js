@@ -12,7 +12,7 @@ function loginStudent(req, res) {
 
     Student.findOne({ username: username }, (err, student) => {
         if (err) { return res.send(err) }
-        if (!student) { return res.send("Student not found") }
+        if (!student) { return res.send({message : "Student not found"}) }
         bcrypt.compare(password, student.password, (err, result) => {
             if (err) { return res.send(err) }
             if (!result) { return res.send("Wrong password") }

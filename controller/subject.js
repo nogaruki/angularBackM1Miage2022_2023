@@ -10,12 +10,21 @@ function getSubject(req, res) {
     })
 }
 
+// Récupérer un assignment par son id (GET)
+function getAllSubject(req, res) {
+    Subject.find((err, subjects) => {
+        if (err) { res.send(err) }
+        res.json(subjects);
+    })
+}
+
 // Ajout d'un assignment (POST)
 function postSubject(req, res) {
     let subject = new Subject();
     subject.id = req.body.id;
     subject.title = req.body.title;
     subject.picture = req.body.picture;
+    subject.teacher_id = req.body.teacher_id;
 
     console.log("POST subject reçu :");
     console.log(subject)
@@ -29,4 +38,4 @@ function postSubject(req, res) {
 }
 
 
-module.exports = { getSubject, postSubject };
+module.exports = { getSubject, postSubject, getAllSubject };

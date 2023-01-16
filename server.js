@@ -24,16 +24,16 @@ const options = {
 
 mongoose.connect(uri, options)
     .then(() => {
-            console.log("Connecté à la base MongoDB assignments dans le cloud !");
-            console.log("at URI = " + uri);
-            console.log("vérifiez with http://localhost:8010/api/assignments que cela fonctionne")
-        },
+        console.log("Connecté à la base MongoDB assignments dans le cloud !");
+        console.log("at URI = " + uri);
+        console.log("vérifiez with http://localhost:8010/api/assignments que cela fonctionne")
+    },
         err => {
             console.log('Erreur de connexion: ', err);
-        }).catch(e=>console.log(e));
+        }).catch(e => console.log(e));
 
 // Pour accepter les connexions cross-domain (CORS)
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -94,6 +94,8 @@ app.route(prefix + '/subject')
 app.route(prefix + '/subject/:id')
     .get(subject.getSubject);
 
+app.route(prefix + '/subjects')
+    .get(subject.getAllSubject);
 //COMMENT
 
 app.route(prefix + '/comment')
