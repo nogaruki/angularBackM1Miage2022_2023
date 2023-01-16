@@ -80,7 +80,6 @@ function registerTeacher(req, res) {
 
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Teacher.create({
-        id: req.body.id,
         email: req.body.email,
         picture: req.body.picture,
         password: hashedPassword,

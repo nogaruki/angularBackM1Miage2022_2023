@@ -8,7 +8,7 @@ let AssignmentSchema = Schema({
     nom: String,
     note: Number,
     subject_id: Number,
-    teacher_id: Number,
+    teacher_id: String,
     students_id: [String]
 });
 AssignmentSchema.plugin(aggregatePaginate);

@@ -1,0 +1,42 @@
+[
+	{
+		"nom": "Katelyn",
+		"prenom": "Bright",
+		"email": "ornare.sagittis@outlook.edu",
+		"text": "malesuada ut, sem. Nulla interdum. Curabitur",
+		"username": "Nasim Monroe",
+		"password": "$2a$08$1sBkuESLX6wKvtWHNSzYz.hA9/tRJyZtWFs3IbN4rhEvHlsGCh57y"
+	},
+	{
+		"nom": "Leonard",
+		"prenom": "Duncan",
+		"email": "velit.eget.laoreet@google.couk",
+		"text": "non quam. Pellentesque habitant morbi tristique senectus",
+		"username": "Carolyn Case",
+		"password": "$2a$08$1sBkuESLX6wKvtWHNSzYz.hA9/tRJyZtWFs3IbN4rhEvHlsGCh57y"
+	},
+	{
+		"nom": "Kylee",
+		"prenom": "Savage",
+		"email": "id.risus@protonmail.com",
+		"text": "massa rutrum magna. Cras convallis convallis dolor. Quisque tincidunt",
+		"username": "Hope Fuller",
+		"password": "$2a$08$1sBkuESLX6wKvtWHNSzYz.hA9/tRJyZtWFs3IbN4rhEvHlsGCh57y"
+	},
+	{
+		"nom": "Paul",
+		"prenom": "Cohen",
+		"email": "nunc.mauris@aol.com",
+		"text": "Quisque",
+		"username": "Desiree Maldonado",
+		"password": "$2a$08$1sBkuESLX6wKvtWHNSzYz.hA9/tRJyZtWFs3IbN4rhEvHlsGCh57y"
+	},
+	{
+		"nom": "Odysseus",
+		"prenom": "Ellison",
+		"email": "sem.eget@google.ca",
+		"text": "imperdiet",
+		"username": "April Morrow",
+		"password": "$2a$08$1sBkuESLX6wKvtWHNSzYz.hA9/tRJyZtWFs3IbN4rhEvHlsGCh57y"
+	}
+]

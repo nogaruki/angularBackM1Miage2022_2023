@@ -2,7 +2,6 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let Teacher = Schema({
-    id: Number,
     username: String,
     email: String,
     picture: String, //URL
