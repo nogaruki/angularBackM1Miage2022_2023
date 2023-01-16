@@ -13,10 +13,10 @@ function loginStudent(req, res) {
 
     Student.findOne({ username: username }, (err, student) => {
         if (err) { return res.send(err) }
-        if (!student) { return res.send({message : "Student not found"}) }
+        if (!student) { return res.send({message: "Student not found"}) }
         bcrypt.compare(password, student.password, (err, result) => {
             if (err) { return res.send(err) }
-            if (!result) { return res.send({message :"Wrong password"}) }
+            if (!result) { return res.send({message: "Wrong password"}) }
             let token = jwt.sign({ id: student._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -63,8 +63,8 @@ function registerStudent(req, res) {
     let username = req.body.username;
     Student.findOne({ username: username}, (err, student) => {
         if (err) { return res.send(err) }
-        if (student) { 
-            return res.send({message: "Username already taken"}) 
+        if (student) {
+            return res.send({message: "Username already taken"})
         }
 
     });
