@@ -59,6 +59,24 @@ function registerStudent(req, res) {
     if (!req.body.username || !req.body.password || !req.body.email || !req.body.prenom || !req.body.nom) {
         return res.status(400).send({ message: "Veuillez remplir tous les champs" });
     }
+
+    let username = req.body.username;
+    Student.findOne({ username: username}, (err, student) => {
+        if (err) { return res.send(err) }
+        if (student) { 
+            return res.send({message: "Username already taken"}) 
+        }
+
+    });
+    let email = req.body.email;
+    Student.findOne({ email: email }, (err, student) => {
+        if (err) { return res.send(err) }
+        if (student) {
+            return res.send({message: "Email already taken"})
+        }
+
+    });
+
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Student.create({
             username: req.body.username,

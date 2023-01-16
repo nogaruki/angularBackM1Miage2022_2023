@@ -60,6 +60,24 @@ function registerTeacher(req, res) {
     if (!req.body.picture) {
         req.body.picture = "https://www.w3schools.com/howto/img_avatar.png";
     }
+
+    let username = req.body.username;
+    Teacher.findOne({ username: username}, (err, teacher) => {
+        if (err) { return res.send(err) }
+        if (teacher) { 
+            return res.send({message: "Username already taken"}) 
+        }
+
+    });
+    let email = req.body.email;
+    Teacher.findOne({ email: email }, (err, teacher) => {
+        if (err) { return res.send(err) }
+        if (teacher) {
+            return res.send({message: "Email already taken"})
+        }
+
+    });
+
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
     Teacher.create({
         id: req.body.id,
