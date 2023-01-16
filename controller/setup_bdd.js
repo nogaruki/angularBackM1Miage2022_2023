@@ -18,7 +18,7 @@ function peuplerbdd(req, res) {
     //addComments(commentsToAdd);
     //addSubjects(subjectsToAdd);
     //addStudents(studentsToAdd);
-    //addAssignments(assignmentsToAdd);
+    addAssignments(assignmentsToAdd);
 
 
     res.status(200).send({message : "La bdd est peuplé !"});
